@@ -1,0 +1,12 @@
+{% extends "base_not_found.html" %}
+
+{% block title %}
+    Track not found
+{% endblock %}
+
+{% block main %}
+    <h2>Track not found</h2>
+    <p>Sorry, we couldn't find the track you were looking for.</p>
+    <p>Try searching for another track.</p>
+    <a href="{{ url_for('homepage') }}">Go back to the homepage</a>
+{% endblock %}

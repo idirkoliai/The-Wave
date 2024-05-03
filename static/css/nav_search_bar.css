@@ -1,0 +1,131 @@
+.sidenav {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #131111;
+    overflow-x: hidden;
+    transition: 0.5s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    margin-left: 300px;
+    transition: margin-left 0.5s ease; 
+}
+
+.sidenav a {
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
+    transition: 0.3s ease;
+}
+
+.sidenav a:hover {
+    color: #1DB954;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+.openNavIcon {
+    position: fixed;
+    top: 10px;
+    left: 10px; 
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 2;
+    color: white;
+}
+
+a.pages {
+    color: white;
+    padding: 20px 8px 10px 25px;
+    font-size: 30px;
+}
+
+.pages.logout {
+    margin-top: auto;
+    margin-bottom: 50px;
+}
+
+.search-bar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.search-bar input[type="text"] {
+    width: 40%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 10px;
+    transition: width 0.5s ease;
+}
+
+.search-bar input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #272323;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar input[type="submit"]:hover {
+    background-color: #1DB954;
+}
+
+body {
+    font-family: Product Sans, sans-serif;
+    background: linear-gradient(200deg, #191914 , #1DB954);            
+    color: white; 
+}
+
+a {
+    text-decoration: none;
+    color : inherit;
+}
+a:visited {
+    color : inherit;
+}
+a:hover {
+    color : #1DB954;
+}
+
+button {
+    background-color: #272323; 
+    color: white; 
+    padding: 10px 20px; 
+    font-size: 18px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+button:hover {
+    background-color: #1DB954;
+}
+
+select {
+    padding: 10px 20px;
+    background-color: #272323;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

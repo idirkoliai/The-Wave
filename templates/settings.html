@@ -1,0 +1,171 @@
+<!-- settings page-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav_search_bar.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <style>
+        .container {
+            background-color: #191414;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 140px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 40%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 40%;
+            padding: 12px;
+            background-color: inherit;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1DB954;;
+        }
+
+        header {
+            color: white;
+            text-align: center;
+            font-size: 45px;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #333;
+            
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            color: #1db954;
+            
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        
+        .content-section {
+            margin-top: 30px;
+            background-color: rgb(32, 29, 29);
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .content-section h2 {
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+
+<body style="align-items: center; justify-content: center;">
+    <div id="main">
+        <span class="OpenNavIcon" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+        <p>&nbsp;</p>
+        <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+        <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+        <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+        <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+        <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+        <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+        <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+    </div>
+    <div class="main-content">
+    <header>
+        <img src="{{ url_for('static', filename='media/logo.png') }}" alt="logo" width="200" height="200">
+        <h1>Settings</h1>
+    </header>
+
+    <main >
+        <section class="content-section">
+            <h2>Change your password</h2>
+            <form action="{{ url_for('settings') }}" method="POST">
+                <label for="old_password">Old password</label>
+                <input type="password" name="old_password" id="old_password" required /><br>
+                <label for="new_password">New password</label>
+                <input type="password" name="new_password" id="new_password" required /><br>
+                <label for="new_confirm">Confirm new password</label>
+                <input type="password" name="new_confirm" id="new_confirm" required /><br><br>
+                <input type="submit" value="Change password" />
+            </form>
+        </section>
+
+        <section class="content-section">
+            <h2>Change your email</h2>
+            <form action="{{ url_for('settings') }}" method="POST">
+                <label for="new_email">New email</label>
+                <input type="email" name="new_email" id="new_email" required /><br><br>
+                <input type="submit" value="Change email" />
+            </form>
+        </section>
+
+        <section class="content-section">
+            <h2>Delete your account</h2>
+            <form action="{{ url_for('settings') }}" method="POST">
+                <label for="del_account">Password</label>
+                <input type="password" name="del_account" id="del_account" required /><br><br>
+                <input type="submit" value="Delete account" />
+            </form>
+        </section>
+    </main>
+    </div>
+</body>
+</html>
+
+

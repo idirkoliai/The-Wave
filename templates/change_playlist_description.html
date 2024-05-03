@@ -1,0 +1,35 @@
+{% extends "base_not_found.html" %}
+{% block title %}
+    Change Playlist Description
+{% endblock %}
+
+{% block style %}
+    <style>
+            input[type="submit"] {
+            width: 40%;
+            padding: 12px;
+            background-color: inherit;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1DB954;;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <header>
+        <img src="{{ url_for('static', filename='media/logo.png') }}" alt="logo" width="200" height="200">
+    </header>
+    <h2>Change Playlist Description</h2>
+    <form action="{{ url_for('change_playlist_description', id_playlist=id_playlist) }}" method="post">
+        <textarea name="description" rows="10" cols="70" placeholder="Enter new description here"></textarea>
+        <br><br><br>
+        <input type="submit" value="Change Playlist Description">
+    </form>
+{% endblock %}

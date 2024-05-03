@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Suggestions</title>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/nav_search_bar.css') }}"/>
+      <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <style>
+    header {
+      color: white;
+      text-align: center;
+      font-size: 45px;
+      padding: 20px 0;
+    }
+
+    header h1 {
+      margin-bottom: 10px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #333; 
+      border-radius: 8px;
+    }
+
+    section h2 {
+      margin-bottom: 15px;
+      color: #1db954; 
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    
+    .content-section {
+      margin-top: 30px;
+      background-color: rgb(32, 29, 29);
+      color: white;
+      font-size: 20px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .content-section h2 {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <span
+      class="OpenNavIcon"
+      style="font-size: 30px; cursor: pointer"
+      onclick="openNav()"
+      >&#9776;</span
+    >
+  </div>
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+    <p>&nbsp;</p>
+    <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+    <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+    <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+    <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+    <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+    <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+    <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+  </div>
+  <div class="main-content">
+    <main>
+      <header>
+        <img src="{{ url_for('static', filename='media/logo.png') }}" alt="logo" width="200" height="200">
+        <h1>Suggestions</h1>
+      </header>
+      <section class="content-section">
+        {% if albums %}
+            <h2>Your Album Recommendations</h2>
+          <ul>
+            {% for album  in albums %}
+            <li>
+                <a href="{{ url_for('album', id_album=album.id_alb) }}">{{ album.nom_album }}</a> by <a href="{{ url_for('groupe', id_groupe=album.id_grp) }}">{{ album.nom_groupe }}</a>
+            </li>
+            
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% if tracks %}
+            <h2>Explore Similar Tracks</h2>
+            <ul>
+            {% for track in tracks %}
+            <li>
+                <a href="{{ url_for('morceau', id_morceau=track.id_mor) }}">{{ track.titre }}</a> by <a href="{{ url_for('groupe', id_groupe=track.id_grp) }}">{{ track.nom_groupe }}</a>
+            </li> 
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% if users %}
+            <h2>Followed by Your Follows </h2>
+            <ul>
+            {% for user in users %}
+            <li>
+                <a href="{{ url_for('profile', username=user.following) }}">{{ user.following }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% if playlists %}
+            <h2>Your Listened-to Playlists</h2>
+            <ul>
+            {% for playlist in playlists %}
+            <li>
+                <a href="{{ url_for('playlist', id_playlist=playlist.id_pl) }}">{{ playlist.nom_playlist }}</a> by <a href="{{ url_for('profile', username=playlist.proprietaire) }}">{{ playlist.proprietaire }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% if groups %}
+            <h2>Preferred Bands of Your Follows</h2>
+            <ul>
+            {% for group in groups %}
+            <li>
+                <a href="{{ url_for('groupe', id_groupe=group.id_grp) }}">{{group.nom_groupe}}</a>
+            </li>
+            
+            {% endfor %}
+          </ul>
+          {% endif %}
+        {% if missing_tracks %}
+            <h2>Unheard Tracks by Your Top-Played Group: {{top_streamed_group.nom_groupe}}</h2>
+            <ul>
+            {% for track in missing_tracks %}
+            <li>
+                <a href="{{ url_for('morceau', id_morceau=track.id_mor) }}">{{track.titre}}</a>
+            </li>
+            
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        
+    </main>
+  </div>
+</body>
+</html>

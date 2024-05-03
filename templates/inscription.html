@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - The Wave</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login_insc.css') }}">
+</head>
+<body>
+    <main>
+        <header>
+            <h1>The Wave</h1>
+        </header>
+        <div class="container">
+            <h1 style="margin-bottom: 40px;">Sign Up</h1>
+            <form method="POST" action="{{ url_for('inscription') }}">
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" required><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" required><br>
+                <label for="confirm_pass">Confirm password:</label><br>
+                <input type="password" id="confirm_pass" name="confirm_pass" required><br><br>
+                <input type="submit" value="Sign Up">
+                <p style="text-align: center;">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ playlist.nom_playlist }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav_search_bar.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <style>
+        header {
+            color: white;
+            text-align: center;
+            font-size: 45px;
+        }
+        header button {
+           margin: 0 20px; 
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #333; 
+            border-radius: 8px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            color: #1DB954; 
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        
+        .content-section {
+            margin-top: 30px;
+            background-color: rgb(32, 29, 29);
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .content-section h2 {
+            margin-bottom: 15px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="main">
+        <span class="OpenNavIcon" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+        <p>&nbsp;</p>
+        <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+        <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+        <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+        <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+        <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+        <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+        <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+    </div>
+    <div class="main-content">
+        <header style="text-align: center; margin-bottom: 20px;">
+            <h1 style="margin-bottom: 10px;">{{ playlist.nom_playlist }} by <a href="{{ url_for('profile', username=playlist.proprietaire) }} ">{{ playlist.proprietaire }}</a></h1>
+        </header>
+        <header style="display: flex; justify-content: center; align-items: center;">
+            {% if owner %}
+            <button id="playlistStatus" playlistID="{{ playlist.id_pl }}" onclick="changeStatus()" style="font-size: 30px;"></button>
+            {% endif %}
+            {% if not owner %}
+                <button id="saveButton" playlistID="{{ playlist.id_pl }}" onclick="savePlaylist()" style="font-size: 30px;">Save playlist</button>
+            {% endif %}
+        </header>
+        
+        
+        
+        <main>
+            <section class="content-section">
+               <p>{{playlist.description_playlist}}</p>
+                {% if owner %}
+                    <a href="{{ url_for('change_playlist_description', id_playlist=playlist.id_pl) }}"><button style="margin-bottom: 20px;">Change Description</button></a>
+                {% endif %}
+            </section>
+
+            <section class="content-section">
+                <h2>Tracklist</h2>
+                <ol>
+                    {%if playlist.proprietaire != session['username']%}
+                        {% for track in tracks %}
+                            <li style="display: flex; justify-content: space-between;"><a href="{{ url_for('morceau', id_morceau=track.id_mor) }}">{{track.titre}}</a> <a href="{{url_for('add_to_playlist',id_playlist=playlist.id_pl,id_morceau=track.id_mor)}}">+</a></li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if playlist.proprietaire == session['username']%}
+                        {% for track in tracks %}
+
+                            <li style="display: flex; justify-content: space-between;"><a href="{{ url_for('morceau', id_morceau=track.id_mor) }}">{{track.titre}}</a> <a href="{{url_for('remove_from_playlist',id_playlist=playlist.id_pl,id_morceau=track.id_mor)}}">X</a></li>
+
+                        {% endfor %}
+                    {% endif %}
+                    
+                </ol>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search - {{ search }}</title>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/nav_search_bar.css') }}"/>
+      <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <style>
+    header {
+      color: white;
+      text-align: center;
+      font-size: 45px;
+      padding: 20px 0;
+    }
+
+    header h1 {
+      margin-bottom: 10px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #333; 
+      border-radius: 8px;
+    }
+
+    section h2 {
+      margin-bottom: 15px;
+      color: #1db954; 
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    
+    .content-section {
+      margin-top: 30px;
+      background-color: rgb(32, 29, 29);
+      color: white;
+      font-size: 20px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .content-section h2 {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <span
+      class="OpenNavIcon"
+      style="font-size: 30px; cursor: pointer"
+      onclick="openNav()"
+      >&#9776;</span
+    >
+  </div>
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+    <p>&nbsp;</p>
+    <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+    <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+    <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+    <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+    <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+    <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+    <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+  </div>
+  <div class="main-content">
+    <header>
+      <img src="{{ url_for('static', filename='media/logo.png') }}" alt="logo" width="200" height="200">
+      <h1>The Wave</h1>
+    </header>
+
+    <div class="search-bar">
+      <form action="/search" method="GET">
+        <input
+          type="text"
+          name="search_query"
+          placeholder="Search..."
+          onclick="openSearch()"/>
+        <select name = 'Filter'>
+            <option value="" disabled selected hidden>Filter</option>
+            <option value="Groups">Groups</option>
+            <option value="Albums">Albums</option>
+            <option value="Tracks">Tracks</option>
+            <option value="Users">Users</option>
+            <option value="Playlists">Playlists</option>
+            <option value="Genres">Genres</option>
+            <option value="Artists">Artists</option>
+        </select>
+        <input type="submit" value="Search" />
+      </form>
+    </div>
+
+    <main>
+      {% if search %}
+        <h2>Search results for "{{search}}"</h2>
+      {% endif %}
+
+      {% if not groups and not albums and not tracks and not users and not groupesgenre and not playlists and not artists %}
+        <h2>No results found for "{{ search }}"</h2>
+      {% endif %} 
+      
+      <section class="content-section">
+        {% if groups %}
+            <h2>Groups</h2>
+          <ol>
+            {% for group in groups %}
+            <li>
+                <a href="{{ url_for('groupe', id_groupe=group.id_grp) }}">{{ group.nom_groupe }}</a>
+            </li>
+            
+            {% endfor %}
+          </ol>
+        {% elif tracks %}
+            <h2>Tracks</h2>
+            <ol>
+            {% for track in tracks %}
+            <li>
+                <a href="{{ url_for('morceau', id_morceau=track.id_mor) }}">{{ track.titre }}</a>
+            </li>
+            
+            {% endfor %}
+          </ol>
+        {% elif albums %}
+            <h2>Albums</h2>
+          <ol>
+            {% for album in albums %}
+            <li>
+                <a href="{{ url_for('album', id_album=album.id_alb) }}">{{ album.nom_album }}</a>
+            </li>
+            
+            {% endfor %}
+          </ol>
+        {% elif users %}
+            <h2>Users</h2>
+            <ol>
+            {% for user in users %}
+            <li>
+                <a href="{{ url_for('profile', username=user.pseudo) }}">{{ user.pseudo }}</a>
+            </li>
+            {% endfor %}
+          </ol>
+        {% elif playlists %}
+            <h2>Playlists</h2>
+            <ol>
+            {% for playlist in playlists %}
+            <li>
+                <a href="{{ url_for('playlist', id_playlist=playlist.id_pl) }}">{{ playlist.nom_playlist }}</a>
+            </li>
+            {% endfor %}
+          </ol>
+        {% elif groupesgenre %}
+            <h2>Genres</h2>
+            <ol>
+            {% for group in groupesgenre %}
+            <li>
+                <a href="{{ url_for('groupe', id_groupe=group.id_grp) }}">{{group.nom_groupe}}</a>
+            </li>
+            
+            {% endfor %}
+          </ol>
+        {% elif artists %}
+            <h2>Artists</h2>
+            <ol>
+            {% for artist in artists %}
+            <li>
+                <a href="{{ url_for('artiste', id_artiste=artist.id_art) }}">{{ artist.nom}} {{artist.prenom}}</a>
+            </li>
+            
+            {% endfor %}
+          </ol>
+        {% endif %}
+
+        
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Followed Groups</title>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/nav_search_bar.css') }}"/>
+      <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <style>
+    header {
+      color: white;
+      text-align: center;
+      font-size: 45px;
+      padding: 20px 0;
+    }
+
+    header h1 {
+      margin-bottom: 10px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #333; 
+      border-radius: 8px;
+    }
+
+    section h2 {
+      margin-bottom: 15px;
+      color: #1db954; 
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    
+    .content-section {
+      margin-top: 30px;
+      background-color: rgb(32, 29, 29);
+      color: white;
+      font-size: 20px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .content-section h2 {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <span
+      class="OpenNavIcon"
+      style="font-size: 30px; cursor: pointer"
+      onclick="openNav()"
+      >&#9776;</span
+    >
+  </div>
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+    <p>&nbsp;</p>
+    <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+    <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+    <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+    <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+    <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+    <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+    <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+  </div>
+  <div class="main-content">
+    <header>
+      <img src="{{ url_for('static', filename='media/logo.png') }}" alt="logo" width="200" height="200">
+      <h1>The Wave</h1>
+    </header>
+    <main>
+      <section class="content-section">
+        {% if groups %}
+            <h2>Followed Groups</h2>
+          <ul>
+            {% for group  in groups %}
+            <li>
+                <a href="{{ url_for('groupe', id_groupe=group.id_grp) }}">{{ group.nom_groupe }}</a> 
+            </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <h2>you are not following anyone.</h2>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>

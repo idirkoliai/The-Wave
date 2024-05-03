@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ album.nom_album }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav_search_bar.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <style>
+        header {
+            color: white;
+            text-align: center;
+            font-size: 45px;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #333; 
+            border-radius: 8px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            color: #1DB954; 
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        
+        .content-section {
+            margin-top: 30px;
+            background-color: rgb(32, 29, 29);
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .content-section h2 {
+            margin-bottom: 15px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="main">
+        <span class="OpenNavIcon" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" style="font-size: 40px;"onclick="closeNav()">&times;</a>
+        <p>&nbsp;</p>
+        <a href="{{ url_for('homepage') }}" class="pages">Homepage</a>
+        <a href="{{ url_for('profile', username=session['username']) }}" class="pages">My Profile</a>
+        <a href="{{ url_for('favourites', username=session['username']) }}" class="pages">My Favourites</a>
+        <a href="{{ url_for('playlists') }}" class="pages">Playlists</a>
+        <a href="{{ url_for('suggestions') }}"  class="pages">Suggestions</a>
+        <a href="{{ url_for('settings') }}" class="pages">Settings</a>
+        <a href="{{ url_for('logout') }}" class="pages logout">Logout</a>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>{{album.nom_album}} by <a href="{{url_for('groupe',id_groupe=album.id_grp)}}">{{album.nom_groupe}}</a></h1>
+            <button id="favoriteAlbumButton" albumID="{{ album.id_alb }}" onclick="addFavoritesAlbum()" style="font-size: 30px;" ></button>
+            {% if tracks %}
+                <div>
+                    <a href="{{ url_for('playing', id_morceau=tracks[0].id_mor) }}"><button id="playButton" style="font-size: 30px;">Play</button></a>
+                </div>
+            {% endif %}
+        </header>
+        <main>
+                <section class="content-section">
+                    {% if tracks %}
+                        <li>Released: {{ album.date_sortie }}</li>
+                        <li>Description: </li>
+                        <p>{{album.description}}</p>
+                        </section>
+
+                        <section class="content-section">
+                            <h2>Tracklist</h2>
+                            <ol>
+                                {% for track in tracks %}
+                                    <li><a href="{{ url_for('morceau',id_morceau=track.id_mor) }}">{{track.titre}}</a> </li>
+                                {% endfor %}
+                            </ol>
+                    {% else %}
+                        <p>No tracks available</p>
+                    {% endif %}
+                </section>
+            
+        </main>
+
+    </div>
+
+</body>
+</html>
